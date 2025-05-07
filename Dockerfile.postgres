@@ -1,0 +1,14 @@
+FROM postgres:16
+
+# Variables de entorno por defecto
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=nextjs_db
+
+# Exponer puerto por defecto
+EXPOSE 5432
+
+# Opcional: Copiar scripts SQL iniciales
+# COPY ./init.sql /docker-entrypoint-initdb.d/
+
+#Doc: https://www.notion.so/Postgres-SQL-1ebb6ec2db5380d0aa5cf70739afbb57?pvs=4
