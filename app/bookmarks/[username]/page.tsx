@@ -1,5 +1,5 @@
-import { Fragment, Suspense } from "react"
 import Image from "next/image"
+import { Fragment, Suspense } from "react"
 
 import { Heading, Text } from "@chakra-ui/react"
 
@@ -14,12 +14,21 @@ export default async function Author({
 }) {
   const { username } = await params
 
+  // Use Promise.all to fetch author and bookmarks concurrently
+  // const [author, bookmarks] = await Promise.all([
+  //   getAuthor(username),
+  //   getBookmarksByAuthorUsername(username),
+  // ])
+
   const author = await getAuthor(username)
 
   if (!author) {
     return null
   }
 
+  // This preload is used to prefetch bookmarks for the author
+  // before the component is rendered. This is useful for
+  // server-side rendering and can help improve performance.
   preload(author.id)
 
   const isWhitelisted = await isInWhitelist(author)
