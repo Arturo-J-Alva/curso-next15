@@ -1,21 +1,31 @@
 import { Heading, Text } from "@chakra-ui/react"
 import {
-  CurrencyDollarIcon,
   ClockIcon,
+  CurrencyDollarIcon,
   GlobeAltIcon,
   GlobeAmericasIcon,
 } from "@heroicons/react/24/outline"
 
 import { getTranslations } from "../translations/translate"
 
+interface LanguageParams {
+  lang: 'en' | 'es'
+}
+
 export default async function I18nPage({
   params,
 }: {
-  params: Promise<{ lang: string }>
+  params: Promise<LanguageParams>
 }) {
   const { lang } = await params
   const { t, f, d } = await getTranslations(lang)
-
+  // t: translation function
+  // f: number formatter
+  // d: date formatter
+  // t("key", "default value") => translated string or default value
+  // f(10_000.38) => formatted number
+  // d(new Date()) => formatted date
+  
   return (
     <main className="">
       <header className="my-10">
