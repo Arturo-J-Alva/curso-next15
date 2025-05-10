@@ -1,13 +1,14 @@
 "use server"
 
-import { createSession } from "@/utils/auth"
-import { createHash, randomUUID } from "crypto"
-import { redirect } from "next/navigation"
+import { createSession } from "@/utils/auth";
+import { createHash, randomUUID } from "crypto";
+import { redirect } from "next/navigation";
 
 // Hash de nuestro secreto usando
 // https://hash.online-convert.com/es/generador-sha256
-const SECRET =
-  "2037745262d46eddec63bd2381d1904359fc6b5736da1dcc50799d721a817a6f"
+const LOGINSESSIONSECRET = process.env.SESSION_SECRET;
+// This login secret should ideally be stored in a users table of a database
+// instead of using an environment variable
 
 export async function login(prevState: unknown, data: FormData) {
   const id = randomUUID()
@@ -18,7 +19,7 @@ export async function login(prevState: unknown, data: FormData) {
 
   const hashedPassword = hash.update(password).digest("hex")
 
-  if (hashedPassword !== SECRET) {
+  if (hashedPassword !== LOGINSESSIONSECRET) {
     return { error: "Invalid secret" }
   }
 

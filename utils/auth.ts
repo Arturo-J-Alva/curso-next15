@@ -10,7 +10,7 @@ if (!secretKey && process.env.NODE_ENV !== "development") {
   throw new Error("[session]: please set a valid value for SESSION_SECRET")
 }
 
-const encodedKey = new TextEncoder().encode(secretKey)
+const encodedSecretKey = new TextEncoder().encode(secretKey)
 
 type SessionPayload = {
   userId: string
@@ -24,14 +24,14 @@ export async function encrypt(
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(expirationTime ?? "7d")
-    .sign(encodedKey)
+    .sign(encodedSecretKey)
 }
 
 export async function decrypt(session: string | undefined = "") {
   try {
-    const { payload } = await jwtVerify<SessionPayload>(session, encodedKey, {
-      algorithms: ["HS256"],
-    })
+    const { payload } = await jwtVerify<SessionPayload>(session, encodedSecretKey, {
+      algorithms: ["HS256"],//HS256 is based on SHA256, but adds authentication 
+    })                      //functionality through the use of a shared secret key.
 
     return payload
   } catch (error) {
