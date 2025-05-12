@@ -1,5 +1,6 @@
 import { Heading, Text } from "@chakra-ui/react"
 
+import { FeatureFlagClient } from "./client-component"
 import { getClient } from "./lib"
 
 // @see https://docs.launchdarkly.com/home/observability/contexts
@@ -13,9 +14,7 @@ export const dynamic = "force-dynamic" // 'auto' | 'force-dynamic' | 'error' | '
 
 export default async function FeatureFlags() {
   const client = await getClient()
-  const variation = await client.variation("feature-new-color", context, false)
-
-  const backgroundColor = variation ? "bg-purple-200" : "bg-green-200"
+  const variation = await client.variation("sample-feature", context, false)
 
   return (
     <main className="mt-12">
@@ -29,16 +28,9 @@ export default async function FeatureFlags() {
           dependiendo de su valor renderizará una cosa u otra.
         </Text>
       </header>
-      <div
-        className={`mt-10 max-w-xl mx-auto rounded ${backgroundColor} p-6 min-h-56 flex items-center justify-center`}
-      >
-        <Text fontSize="lg">
-          Mi nueva funcionalidad:{" "}
-          <span className="font-semibold">
-            {variation ? "Activada" : "Desactivada"}
-          </span>
-        </Text>
-      </div>
+      
+      {/* Usar el componente del lado del cliente con el valor inicial del servidor */}
+      <FeatureFlagClient initialValue={variation} />
     </main>
   )
 }
