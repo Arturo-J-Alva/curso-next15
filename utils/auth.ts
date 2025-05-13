@@ -47,11 +47,16 @@ export async function createSession(userId: string) {
   const _cookies = await cookies()
 
   _cookies.set(COOKIE_NAME, session, {
-    httpOnly: true,
-    secure: true,
-    expires: expiresAt,
-    sameSite: "lax",
-    path: "/",
+    httpOnly: true, // This flag helps mitigate the risk of client-side script accessing the protected cookie
+    secure: true, // Use secure cookies in production, but in localhost it will be false
+    expires: expiresAt, // Set the cookie to expire in 7 days
+    sameSite: "lax", // Helps protect against CSRF attacks
+    // lax: Cookies are sent with same-site requests and cross-origin GET requests
+    // strict: Cookies are only sent in a first-party context (same site),
+    // This means that only our domain can access cookies, not any subdomains we own or other domains. 
+    // If you need to share between domains and subdomains, use "lax"
+    // none: Cookies are sent in all contexts, i.e. sending cross-origin is allowed
+    path: "/", // The cookie will be sent to the server for all requests to this path
   })
 }
 
