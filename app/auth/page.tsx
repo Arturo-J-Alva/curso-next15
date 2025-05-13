@@ -1,5 +1,6 @@
+import { Button, Heading, Text } from "@chakra-ui/react"
 import { LockOpenIcon } from "@heroicons/react/24/outline"
-import { Heading, Text, Button } from "@chakra-ui/react"
+import { logout } from "./login/actions"
 
 export default async function I18nPage() {
   return (
@@ -23,7 +24,9 @@ export default async function I18nPage() {
       </div>
 
       <div className="text-center">
-        <Button className="mt-10">Salir</Button>
+        <Button className="mt-10" 
+        onClick={logout}
+        >Salir</Button>
       </div>
     </main>
   )

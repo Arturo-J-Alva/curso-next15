@@ -1,6 +1,6 @@
 "use server"
 
-import { createSession } from "@/utils/auth";
+import { createSession, deleteSession } from "@/utils/auth";
 import { createHash, randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 
@@ -25,5 +25,10 @@ export async function login(prevState: unknown, data: FormData) {
 
   await createSession(id)
 
+  redirect("/auth")
+}
+
+export async function logout() {
+  deleteSession()
   redirect("/auth")
 }
